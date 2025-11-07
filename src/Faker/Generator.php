@@ -257,6 +257,42 @@ use Faker\Container\ContainerInterface;
  *
  * @method string timezone($countryCode = null)
  *
+ * @property \DateTimeImmutable $dateTimeImmutable
+ *
+ * @method \DateTimeImmutable dateTimeImmutable($max = 'now', $timezone = null)
+ *
+ * @property \DateTimeImmutable $dateTimeImmutableAD
+ *
+ * @method \DateTimeImmutable dateTimeImmutableAD($max = 'now', $timezone = null)
+ *
+ * @property \DateTimeImmutable $dateTimeImmutableBetween
+ *
+ * @method \DateTimeImmutable dateTimeImmutableBetween($startDate = '-30 years', $endDate = 'now', $timezone = null)
+ *
+ * @property \DateTimeImmutable $dateTimeImmutableInInterval
+ *
+ * @method \DateTimeImmutable dateTimeImmutableInInterval($date = '-30 years', $interval = '+5 days', $timezone = null)
+ *
+ * @property \DateTimeImmutable $dateTimeImmutableThisCentury
+ *
+ * @method \DateTimeImmutable dateTimeImmutableThisCentury($max = 'now', $timezone = null)
+ *
+ * @property \DateTimeImmutable $dateTimeImmutableThisDecade
+ *
+ * @method \DateTimeImmutable dateTimeImmutableThisDecade($max = 'now', $timezone = null)
+ *
+ * @property \DateTimeImmutable $dateTimeImmutableThisYear
+ *
+ * @method \DateTimeImmutable dateTimeImmutableThisYear($max = 'now', $timezone = null)
+ *
+ * @property \DateTimeImmutable $dateTimeImmutableThisMonth
+ *
+ * @method \DateTimeImmutable dateTimeImmutableThisMonth($max = 'now', $timezone = null)
+ *
+ * @property \DateTimeImmutable $dateTimeImmutableThisWeek
+ *
+ * @method \DateTimeImmutable dateTimeImmutableThisWeek($max = 'now', $timezone = null)
+ *
  * @property void $setDefaultTimezone
  *
  * @method void setDefaultTimezone($timezone = null)

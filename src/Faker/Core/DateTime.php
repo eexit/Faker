@@ -214,4 +214,49 @@ final class DateTime implements DateTimeExtension, GeneratorAwareExtension
 
         return Helper::randomElement($timezones);
     }
+
+    public function dateTimeImmutable($until = 'now', ?string $timezone = null): \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromMutable($this->dateTime($until, $timezone));
+    }
+
+    public function dateTimeImmutableAD($until = 'now', ?string $timezone = null): \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromMutable($this->dateTimeAD($until, $timezone));
+    }
+
+    public function dateTimeImmutableBetween($from = '-30 years', $until = 'now', ?string $timezone = null): \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromMutable($this->dateTimeBetween($from, $until, $timezone));
+    }
+
+    public function dateTimeImmutableInInterval($from = '-30 years', string $interval = '+5 days', ?string $timezone = null): \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromMutable($this->dateTimeInInterval($from, $interval, $timezone));
+    }
+
+    public function dateTimeImmutableThisWeek($until = 'sunday this week', ?string $timezone = null): \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromMutable($this->dateTimeThisWeek($until, $timezone));
+    }
+
+    public function dateTimeImmutableThisMonth($until = 'last day of this month', ?string $timezone = null): \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromMutable($this->dateTimeThisMonth($until, $timezone));
+    }
+
+    public function dateTimeImmutableThisYear($until = 'last day of december', ?string $timezone = null): \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromMutable($this->dateTimeThisYear($until, $timezone));
+    }
+
+    public function dateTimeImmutableThisDecade($until = 'now', ?string $timezone = null): \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromMutable($this->dateTimeThisDecade($until, $timezone));
+    }
+
+    public function dateTimeImmutableThisCentury($until = 'now', ?string $timezone = null): \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromMutable($this->dateTimeThisCentury($until, $timezone));
+    }
 }

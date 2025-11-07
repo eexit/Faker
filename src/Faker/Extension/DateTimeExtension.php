@@ -239,4 +239,84 @@ interface DateTimeExtension
      * @example 'Europe/Rome'
      */
     public function timezone(?string $countryCode = null): string;
+
+    /**
+     * Get a DateTimeImmutable object between January 1, 1970, and `$until` (defaults to "now").
+     *
+     * @param \DateTime|int|string $until    maximum timestamp, defaults to "now"
+     * @param string|null          $timezone zone timezone for generated date, fallback to `DateTime::$defaultTimezone` and `date_default_timezone_get()`.
+     *
+     * @example DateTimeImmutable('2005-08-16 20:39:21')
+     */
+    public function dateTimeImmutable($until = 'now', ?string $timezone = null): \DateTimeImmutable;
+
+    /**
+     * Get a DateTimeImmutable object for a date between January 1, 0001, and now.
+     *
+     * @param \DateTime|int|string $until    maximum timestamp, defaults to "now"
+     * @param string|null          $timezone zone timezone for generated date, fallback to `DateTime::$defaultTimezone` and `date_default_timezone_get()`.
+     *
+     * @example DateTimeImmutable('1265-03-22 21:15:52')
+     */
+    public function dateTimeImmutableAD($until = 'now', ?string $timezone = null): \DateTimeImmutable;
+
+    /**
+     * Get a DateTimeImmutable object a random date between `$from` and `$until`.
+     * Accepts date strings that can be recognized by `strtotime()`.
+     *
+     * @param \DateTime|string     $from     defaults to 30 years ago
+     * @param \DateTime|int|string $until    maximum timestamp, defaults to "now"
+     * @param string|null          $timezone zone timezone for generated date, fallback to `DateTime::$defaultTimezone` and `date_default_timezone_get()`.* @see http://php.net/manual/en/function.date-default-timezone-get.php
+     */
+    public function dateTimeImmutableBetween($from = '-30 years', $until = 'now', ?string $timezone = null): \DateTimeImmutable;
+
+    /**
+     * Get a DateTimeImmutable object based on a random date between `$from` and an interval.
+     * Accepts date string that can be recognized by `strtotime()`.
+     *
+     * @param \DateTime|int|string $from     defaults to 30 years ago
+     * @param string               $interval defaults to 5 days after
+     * @param string|null          $timezone zone timezone for generated date, fallback to `DateTime::$defaultTimezone` and `date_default_timezone_get()`.
+     */
+    public function dateTimeImmutableInInterval($from = '-30 years', string $interval = '+5 days', ?string $timezone = null): \DateTimeImmutable;
+
+    /**
+     * Get a DateTimeImmutable object somewhere inside the current week.
+     *
+     * @param \DateTime|int|string $until    maximum timestamp, defaults to "now"
+     * @param string|null          $timezone zone timezone for generated date, fallback to `DateTime::$defaultTimezone` and `date_default_timezone_get()`.
+     */
+    public function dateTimeImmutableThisWeek($until = 'now', ?string $timezone = null): \DateTimeImmutable;
+
+    /**
+     * Get a DateTimeImmutable object somewhere inside the current month.
+     *
+     * @param \DateTime|int|string $until    maximum timestamp, defaults to "now"
+     * @param string|null          $timezone timezone for generated date, fallback to `DateTime::$defaultTimezone` and `date_default_timezone_get()`.
+     */
+    public function dateTimeImmutableThisMonth($until = 'now', ?string $timezone = null): \DateTimeImmutable;
+
+    /**
+     * Get a DateTimeImmutable object somewhere inside the current year.
+     *
+     * @param \DateTime|int|string $until    maximum timestamp, defaults to "now"
+     * @param string|null          $timezone timezone for generated date, fallback to `DateTime::$defaultTimezone` and `date_default_timezone_get()`.
+     */
+    public function dateTimeImmutableThisYear($until = 'now', ?string $timezone = null): \DateTimeImmutable;
+
+    /**
+     * Get a DateTimeImmutable object somewhere inside the current decade.
+     *
+     * @param \DateTime|int|string $until    maximum timestamp, defaults to "now"
+     * @param string|null          $timezone timezone for generated date, fallback to `DateTime::$defaultTimezone` and `date_default_timezone_get()`.
+     */
+    public function dateTimeImmutableThisDecade($until = 'now', ?string $timezone = null): \DateTimeImmutable;
+
+    /**
+     * Get a DateTimeImmutable object somewhere inside the current century.
+     *
+     * @param \DateTime|int|string $until    maximum timestamp, defaults to "now"
+     * @param string|null          $timezone timezone for generated date, fallback to `DateTime::$defaultTimezone` and `date_default_timezone_get()`.
+     */
+    public function dateTimeImmutableThisCentury($until = 'now', ?string $timezone = null): \DateTimeImmutable;
 }

@@ -276,4 +276,115 @@ final class DateTimeTest extends TestCase
         self::assertIsString($countryTimezone);
         self::assertContains($countryTimezone, \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, 'US'));
     }
+
+    /**
+     * @requires PHP < 8.3
+     */
+    public function testDateTimeImmutable(): void
+    {
+        $dateTime = $this->extension->dateTimeImmutable('2005-10-19T14:12:00');
+
+        self::assertInstanceOf(\DateTimeImmutable::class, $dateTime);
+        self::assertEquals(new \DateTimeImmutable('1990-09-29T12:12:53'), $dateTime);
+    }
+
+    /**
+     * @requires PHP < 8.3
+     */
+    public function testDateTimeImmutableWithTimezone(): void
+    {
+        $dateTime = $this->extension->dateTimeImmutable('2021-09-05T15:10:00', 'America/Los_Angeles');
+
+        self::assertInstanceOf(\DateTimeImmutable::class, $dateTime);
+        self::assertEquals(new \DateTimeImmutable('1999-12-11T22:41:46.000000-0800'), $dateTime);
+        self::assertEquals(new \DateTimeZone('America/Los_Angeles'), $dateTime->getTimezone());
+    }
+
+    /**
+     * @requires PHP < 8.3
+     */
+    public function testDateTimeImmutableAD(): void
+    {
+        $dateTime = $this->extension->dateTimeImmutableAD('2012-04-12T19:22:23');
+
+        self::assertInstanceOf(\DateTimeImmutable::class, $dateTime);
+        self::assertEquals(new \DateTimeImmutable('1166-06-01T17:43:42'), $dateTime);
+    }
+
+    /**
+     * @requires PHP < 8.3
+     */
+    public function testDateTimeImmutableBetween(): void
+    {
+        $dateTime = $this->extension->dateTimeImmutableBetween('1998-12-18T11:23:40', '2004-09-15T22:10:45');
+
+        self::assertInstanceOf(\DateTimeImmutable::class, $dateTime);
+        self::assertEquals(new \DateTimeImmutable('2002-04-17T09:33:38'), $dateTime);
+    }
+
+    public function testDateTimeImmutableBetweenShouldThrowIfFromIsNotAnteriorToUntil(): void
+    {
+        self::expectException(\InvalidArgumentException::class);
+        $this->extension->dateTimeImmutableBetween('2004-09-15T22:10:45', '1998-12-18T11:23:40');
+    }
+
+    /**
+     * @requires PHP < 8.3
+     */
+    public function testDateTimeImmutableInInterval(): void
+    {
+        $dateTime = $this->extension->dateTimeImmutableInInterval('1999-07-16T17:30:12', '+2 years');
+
+        self::assertInstanceOf(\DateTimeImmutable::class, $dateTime);
+        self::assertEquals(new \DateTimeImmutable('2000-09-12T07:10:58'), $dateTime);
+    }
+
+    public function testDateTimeImmutableThisWeek(): void
+    {
+        $dateTime = $this->extension->dateTimeImmutableThisWeek();
+
+        self::assertInstanceOf(\DateTimeImmutable::class, $dateTime);
+        self::assertGreaterThanOrEqual(new \DateTimeImmutable('monday this week'), $dateTime);
+        self::assertLessThanOrEqual(new \DateTimeImmutable('sunday this week'), $dateTime);
+    }
+
+    public function testDateTimeImmutableThisMonth(): void
+    {
+        $dateTime = $this->extension->dateTimeImmutableThisMonth();
+
+        self::assertInstanceOf(\DateTimeImmutable::class, $dateTime);
+        self::assertGreaterThanOrEqual(new \DateTimeImmutable('first day of this month'), $dateTime);
+        self::assertLessThanOrEqual(new \DateTimeImmutable('last day of this month'), $dateTime);
+    }
+
+    public function testDateTimeImmutableThisYear(): void
+    {
+        $dateTime = $this->extension->dateTimeImmutableThisYear();
+
+        self::assertInstanceOf(\DateTimeImmutable::class, $dateTime);
+        self::assertGreaterThanOrEqual(new \DateTimeImmutable('first day of january'), $dateTime);
+        self::assertLessThanOrEqual(new \DateTimeImmutable('last day of december'), $dateTime);
+    }
+
+    public function testDateTimeImmutableThisDecade(): void
+    {
+        $dateTime = $this->extension->dateTimeImmutableThisDecade();
+
+        $year = floor(date('Y') / 10) * 10;
+
+        self::assertInstanceOf(\DateTimeImmutable::class, $dateTime);
+        self::assertGreaterThanOrEqual(new \DateTimeImmutable("first day of january $year"), $dateTime);
+        self::assertLessThanOrEqual(new \DateTimeImmutable('now'), $dateTime);
+    }
+
+    public function testDateTimeImmutableThisCentury(): void
+    {
+        $dateTime = $this->extension->dateTimeImmutableThisCentury();
+
+        $year = floor(date('Y') / 100) * 100;
+
+        self::assertInstanceOf(\DateTimeImmutable::class, $dateTime);
+        self::assertGreaterThanOrEqual(new \DateTimeImmutable("first day of january $year"), $dateTime);
+        self::assertLessThanOrEqual(new \DateTimeImmutable('now'), $dateTime);
+    }
 }

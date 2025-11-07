@@ -292,4 +292,120 @@ final class DateTimeTest extends TestCase
         self::assertIsString($countryTimezone);
         self::assertContains($countryTimezone, \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, 'US'));
     }
+
+    public function testDateTimeImmutable(): void
+    {
+        $date = DateTimeProvider::dateTimeImmutable();
+        self::assertInstanceOf('\DateTimeImmutable', $date);
+        self::assertGreaterThanOrEqual(new \DateTimeImmutable('@0'), $date);
+        self::assertLessThanOrEqual(new \DateTimeImmutable(), $date);
+        self::assertEquals(new \DateTimeZone($this->defaultTz), $date->getTimezone());
+    }
+
+    public function testDateTimeImmutableWithTimezone(): void
+    {
+        $date = DateTimeProvider::dateTimeImmutable('now', 'America/New_York');
+        self::assertEquals($date->getTimezone(), new \DateTimeZone('America/New_York'));
+    }
+
+    public function testDateTimeImmutableAD(): void
+    {
+        $date = DateTimeProvider::dateTimeImmutableAD();
+        self::assertInstanceOf('\DateTimeImmutable', $date);
+        self::assertGreaterThanOrEqual(new \DateTimeImmutable('0000-01-01 00:00:00'), $date);
+        self::assertLessThanOrEqual(new \DateTimeImmutable(), $date);
+        self::assertEquals(new \DateTimeZone($this->defaultTz), $date->getTimezone());
+    }
+
+    public function testDateTimeImmutableThisCentury(): void
+    {
+        $date = DateTimeProvider::dateTimeImmutableThisCentury();
+        self::assertInstanceOf('\DateTimeImmutable', $date);
+        self::assertGreaterThanOrEqual(new \DateTimeImmutable('-100 year'), $date);
+        self::assertLessThanOrEqual(new \DateTimeImmutable(), $date);
+        self::assertEquals(new \DateTimeZone($this->defaultTz), $date->getTimezone());
+    }
+
+    public function testDateTimeImmutableThisDecade(): void
+    {
+        $date = DateTimeProvider::dateTimeImmutableThisDecade();
+        self::assertInstanceOf('\DateTimeImmutable', $date);
+        self::assertGreaterThanOrEqual(new \DateTimeImmutable('-10 year'), $date);
+        self::assertLessThanOrEqual(new \DateTimeImmutable(), $date);
+        self::assertEquals(new \DateTimeZone($this->defaultTz), $date->getTimezone());
+    }
+
+    public function testDateTimeImmutableThisYear(): void
+    {
+        $date = DateTimeProvider::dateTimeImmutableThisYear();
+        self::assertInstanceOf('\DateTimeImmutable', $date);
+        self::assertGreaterThanOrEqual(new \DateTimeImmutable('first day of january this year'), $date);
+        self::assertLessThanOrEqual(new \DateTimeImmutable(), $date);
+        self::assertEquals(new \DateTimeZone($this->defaultTz), $date->getTimezone());
+    }
+
+    public function testDateTimeImmutableThisMonth(): void
+    {
+        $date = DateTimeProvider::dateTimeImmutableThisMonth();
+        self::assertInstanceOf('\DateTimeImmutable', $date);
+        self::assertGreaterThanOrEqual(new \DateTimeImmutable('-1 month'), $date);
+        self::assertLessThanOrEqual(new \DateTimeImmutable(), $date);
+        self::assertEquals(new \DateTimeZone($this->defaultTz), $date->getTimezone());
+    }
+
+    public function testDateTimeImmutableThisCenturyWithTimezone(): void
+    {
+        $date = DateTimeProvider::dateTimeImmutableThisCentury('now', 'America/New_York');
+        self::assertEquals($date->getTimezone(), new \DateTimeZone('America/New_York'));
+    }
+
+    public function testDateTimeImmutableThisDecadeWithTimezone(): void
+    {
+        $date = DateTimeProvider::dateTimeImmutableThisDecade('now', 'America/New_York');
+        self::assertEquals($date->getTimezone(), new \DateTimeZone('America/New_York'));
+    }
+
+    public function testDateTimeImmutableThisYearWithTimezone(): void
+    {
+        $date = DateTimeProvider::dateTimeImmutableThisYear('now', 'America/New_York');
+        self::assertEquals($date->getTimezone(), new \DateTimeZone('America/New_York'));
+    }
+
+    public function testDateTimeImmutableThisMonthWithTimezone(): void
+    {
+        $date = DateTimeProvider::dateTimeImmutableThisMonth('now', 'America/New_York');
+        self::assertEquals($date->getTimezone(), new \DateTimeZone('America/New_York'));
+    }
+
+    /**
+     * @dataProvider providerDateTimeBetween
+     */
+    public function testDateTimeImmutableBetween($start, $end): void
+    {
+        $date = DateTimeProvider::dateTimeImmutableBetween($start, $end);
+        self::assertInstanceOf('\DateTimeImmutable', $date);
+        self::assertGreaterThanOrEqual(new \DateTimeImmutable($start), $date);
+        self::assertLessThanOrEqual(new \DateTimeImmutable($end ?: 'now'), $date);
+        self::assertEquals(new \DateTimeZone($this->defaultTz), $date->getTimezone());
+    }
+
+    /**
+     * @dataProvider providerDateTimeInInterval
+     */
+    public function testDateTimeImmutableInInterval($start, $interval, $isInFuture): void
+    {
+        $date = DateTimeProvider::dateTimeImmutableInInterval($start, $interval);
+        self::assertInstanceOf('\DateTimeImmutable', $date);
+
+        $_interval = \DateInterval::createFromDateString($interval);
+        $_start = new \DateTimeImmutable($start);
+
+        if ($isInFuture) {
+            self::assertGreaterThanOrEqual($_start, $date);
+            self::assertLessThanOrEqual($_start->add($_interval), $date);
+        } else {
+            self::assertLessThanOrEqual($_start, $date);
+            self::assertGreaterThanOrEqual($_start->add($_interval), $date);
+        }
+    }
 }
